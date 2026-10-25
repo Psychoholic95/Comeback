@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f766e">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>Comback</title>
+<style>
+:root{
+  --bg:#f5f3ee;--card:#ffffff;--ink:#1c2531;--muted:#667085;--line:#e6e2d9;--soft:#efece4;
+  --accent:#0f766e;--accent2:#4338ca;--accent-ink:#fff;--ok:#16a34a;--warn:#d97706;
+  --shadow:0 1px 2px rgba(20,30,40,.05),0 6px 18px rgba(20,30,40,.06);
+  --Maths:#e11d48;--Science:#0d9488;--Social:#d97706;--Quran:#16a34a;--Revision:#7c3aed;--Entertainment:#db2777;--Other:#475569;
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){
+  --bg:#0d1317;--card:#161f26;--ink:#e8eef2;--muted:#8d9ba6;--line:#25323b;--soft:#1d2830;
+  --accent:#2dd4bf;--accent2:#818cf8;--accent-ink:#06201c;--shadow:0 1px 2px rgba(0,0,0,.4),0 8px 22px rgba(0,0,0,.35);
+  --Maths:#fb7185;--Science:#2dd4bf;--Social:#fbbf24;--Quran:#4ade80;--Revision:#a78bfa;--Entertainment:#f472b6;--Other:#94a3b8}}
+:root[data-theme=dark]{
+  --bg:#0d1317;--card:#161f26;--ink:#e8eef2;--muted:#8d9ba6;--line:#25323b;--soft:#1d2830;
+  --accent:#2dd4bf;--accent2:#818cf8;--accent-ink:#06201c;--shadow:0 1px 2px rgba(0,0,0,.4),0 8px 22px rgba(0,0,0,.35);
+  --Maths:#fb7185;--Science:#2dd4bf;--Social:#fbbf24;--Quran:#4ade80;--Revision:#a78bfa;--Entertainment:#f472b6;--Other:#94a3b8}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI Variable","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;line-height:1.4;padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+button{font:inherit;color:inherit;cursor:pointer}
+.wrap{max-width:760px;margin:0 auto;padding:0 14px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:calc(14px + env(safe-area-inset-top)) 0 10px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.2px}
+.brand img{width:30px;height:30px;border-radius:9px}
+.chips{display:flex;gap:8px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:6px 12px;font-weight:700;font-size:14px;box-shadow:var(--shadow)}
+.iconbtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow);font-size:16px}
+.hero{background:linear-gradient(135deg,#0f766e,#4338ca);color:#fff;border-radius:22px;padding:18px;display:flex;gap:16px;align-items:center;box-shadow:var(--shadow);margin:6px 0 14px}
+.hero h2{margin:0;font-size:21px;letter-spacing:-.3px}
+.hero p{margin:4px 0 0;opacity:.88;font-size:14px}
+.ring{position:relative;flex:none}
+.ring span{position:absolute;inset:0;display:grid;place-items:center;font-weight:800;font-size:17px}
+.strip{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 12px;scroll-snap-type:x proximity;scrollbar-width:thin}
+.day{flex:none;width:58px;padding:8px 0 7px;border-radius:16px;border:1px solid var(--line);background:var(--card);text-align:center;scroll-snap-align:center}
+.day small{display:block;font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase}
+.day b{display:block;font-size:18px;line-height:1.2}
+.day i{display:block;height:4px;border-radius:4px;background:var(--soft);margin:6px 9px 0;overflow:hidden}
+.day i u{display:block;height:100%;background:var(--ok);text-decoration:none}
+.day.sel{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.day.sel small{color:inherit;opacity:.85}
+.day.today{box-shadow:0 0 0 2px var(--accent2)}
+.sec{display:flex;justify-content:space-between;align-items:center;margin:10px 2px 8px}
+.sec h3{margin:0;font-size:15px;letter-spacing:.2px}
+.link{background:none;border:0;color:var(--accent);font-weight:700;font-size:13px;padding:4px}
+.task{display:flex;gap:12px;align-items:center;background:var(--card);border-radius:16px;padding:12px 12px 12px 0;margin-bottom:9px;box-shadow:var(--shadow);overflow:hidden;border:1px solid var(--line)}
+.task::before{content:"";align-self:stretch;width:5px;background:var(--c);flex:none}
+.tick{flex:none;width:30px;height:30px;border-radius:10px;border:2px solid var(--line);background:var(--bg);display:grid;place-items:center;color:transparent;font-size:18px;font-weight:900;transition:.15s}
+.task.done .tick{background:var(--ok);border-color:var(--ok);color:#fff;transform:scale(1.05)}
+.task.done .tt{text-decoration:line-through;color:var(--muted)}
+.tt{font-weight:650;word-break:break-word}
+.meta{display:flex;flex-wrap:wrap;gap:6px 10px;font-size:12.5px;color:var(--muted);margin-top:3px;align-items:center}
+.tag{font-weight:800;color:var(--c)}
+.grow{flex:1;min-width:0}
+.mini{height:6px;border-radius:6px;background:var(--soft);overflow:hidden;margin-top:8px}
+.mini i{display:block;height:100%;background:var(--c);transition:width .25s}
+.stepper{display:flex;align-items:center;gap:8px;margin-top:8px;font-weight:700;font-size:13px}
+.stepper button{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--bg);font-size:17px}
+.x{background:none;border:0;color:var(--muted);font-size:15px;padding:6px;opacity:.7}
+.empty{text-align:center;color:var(--muted);padding:26px 10px;background:var(--card);border-radius:16px;border:1px dashed var(--line)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
+.row{display:flex;align-items:center;gap:12px}
+.bar{height:9px;border-radius:9px;background:var(--soft);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--c,var(--accent));transition:width .3s}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;box-shadow:var(--shadow)}
+.kpi b{display:block;font-size:24px;letter-spacing:-.5px}
+.kpi span{font-size:12.5px;color:var(--muted)}
+details.week{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:10px;box-shadow:var(--shadow);overflow:hidden}
+details.week summary{list-style:none;padding:13px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;font-weight:700}
+details.week summary::-webkit-details-marker{display:none}
+details.week summary .bar{width:70px;flex:none}
+.wd{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:0;border-top:1px solid var(--line);background:none;padding:10px 14px}
+.wd .dots{display:flex;gap:4px}
+.wd .dots i{width:9px;height:9px;border-radius:50%;background:var(--c)}
+.wd .dots i.off{opacity:.25}
+.wd.cur{background:var(--soft)}
+.bars{display:flex;gap:8px;align-items:flex-end;height:96px;margin-top:6px}
+.bars div{flex:1;text-align:center;font-size:11px;color:var(--muted)}
+.bars em{display:block;background:var(--accent);border-radius:7px 7px 3px 3px;min-height:3px;margin-bottom:4px}
+.nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom));display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:6px;box-shadow:0 10px 30px rgba(0,0,0,.18);z-index:30;width:min(440px,calc(100% - 24px))}
+.nav button{flex:1;border:0;background:none;border-radius:16px;padding:8px 2px;font-size:11.5px;font-weight:700;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px}
+.nav button span{font-size:19px;line-height:1}
+.nav button.on{background:var(--accent);color:var(--accent-ink)}
+.fab{position:fixed;right:max(16px,calc(50% - 360px));bottom:calc(86px + env(safe-area-inset-bottom));width:56px;height:56px;border-radius:50%;border:0;background:var(--accent2);color:#fff;font-size:30px;line-height:1;box-shadow:0 8px 22px rgba(0,0,0,.28);z-index:25}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:12px;padding:11px 16px;font-weight:800}
+.btn.alt{background:var(--soft);color:var(--ink)}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+dialog{border:0;border-radius:22px;padding:0;width:min(440px,calc(100% - 24px));background:var(--card);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+dialog::backdrop{background:rgba(5,10,15,.55)}
+dialog form{padding:18px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+dialog h3{grid-column:1/-1;margin:0 0 2px;font-size:19px}
+.full{grid-column:1/-1}
+label{font-size:12px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px}
+input,select{font:inherit;width:100%;padding:11px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.acts{grid-column:1/-1;display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
+.toast{position:fixed;left:50%;bottom:calc(150px + env(safe-area-inset-bottom));transform:translate(-50%,10px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:14px;opacity:0;pointer-events:none;transition:.25s;z-index:60;font-weight:700;max-width:90%;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.hide{display:none!important}
+.muted{color:var(--muted);font-size:13px}
+.net{font-size:12px;color:var(--muted);text-align:center;margin-top:18px}
+.legend{display:flex;gap:16px;font-size:12.5px;color:var(--muted);margin-top:6px}
+.legend i{display:inline-block;width:18px;height:4px;border-radius:4px;margin-right:6px;vertical-align:middle}
+.legend i.dash{background:repeating-linear-gradient(90deg,var(--muted) 0 5px,transparent 5px 9px)}
+.wk{display:flex;align-items:center;gap:10px;margin-bottom:9px;font-size:13px}
+.wk b{width:52px;flex:none}.wk .bar{flex:1}.wk span{width:38px;text-align:right;font-weight:800}
+#line svg{width:100%;height:auto;display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand"><img src="icon.svg" alt="">Comback</div>
+    <div class="chips">
+      <div class="chip" title="Day streak">🔥 <span id="hStreak">0</span></div>
+      <div class="chip" title="Points">⭐ <span id="hPts">0</span></div>
+      <button class="iconbtn" id="themeBtn" title="Change theme">🌓</button>
+    </div>
+  </div>
+
+  <section id="tab-today">
+    <div class="hero">
+      <div class="ring" id="heroRing"></div>
+      <div><h2 id="heroTitle"></h2><p id="heroSub"></p></div>
+    </div>
+    <div class="strip" id="strip"></div>
+    <div class="sec"><h3 id="listTitle">Tasks</h3><button class="link" id="todayBtn">Jump to today</button></div>
+    <div id="list"></div>
+  </section>
+
+  <section id="tab-plan" class="hide">
+    <div class="sec"><h3>Your 2-month plan</h3><span class="muted" id="planSub"></span></div>
+    <div id="weeks"></div>
+  </section>
+
+  <section id="tab-progress" class="hide">
+    <div class="card row"><div class="ring" id="allRing"></div>
+      <div><h3 style="margin:0;font-size:18px">Overall progress</h3><div class="muted" id="allSub"></div></div></div>
+    <div class="grid2" id="kpis" style="margin-bottom:12px"></div>
+    <div class="card"><b>Progress over time</b>
+      <div class="muted" style="margin:2px 0 6px">Your completed tasks vs where the plan says you should be</div>
+      <div id="line"></div>
+      <div class="legend"><span><i style="background:var(--accent)"></i>You</span><span><i class="dash"></i>Plan target</span></div></div>
+    <div class="card"><b>Week by week</b><div id="weekly" style="margin-top:10px"></div></div>
+    <div class="card"><b>Hours studied, last 7 days</b><div class="bars" id="bars"></div></div>
+    <div class="sec"><h3>By subject</h3></div>
+    <div id="subjects"></div>
+    <div class="card">
+      <b>Backup &amp; settings</b>
+      <p class="muted">Everything is saved on this device. Save a backup file now and then.</p>
+      <div class="row" style="flex-wrap:wrap">
+        <button class="btn alt" id="exp">Save backup</button>
+        <button class="btn alt" id="imp">Load backup</button>
+        <button class="btn alt" id="reset">Reset all ticks</button>
+      </div>
+      <input type="file" id="file" accept=".json" class="hide">
+    </div>
+  </section>
+
+  <section id="tab-rewards" class="hide">
+    <div class="hero" style="background:linear-gradient(135deg,var(--Entertainment),var(--Revision))">
+      <div class="ring" style="font-size:44px">🎁</div>
+      <div><h2><span id="rBal">0</span> points to spend</h2><p>Screen-free fun counts. Redeem it, then go enjoy it!</p></div>
+    </div>
+    <div id="rewards"></div>
+    <div class="card">
+      <b>Add your own reward</b>
+      <div class="grid2" style="margin-top:10px">
+        <div style="grid-column:1/-1"><label>Reward</label><input id="rName" placeholder="e.g. Play cricket for 30 min"></div>
+        <div><label>Cost (points)</label><input id="rCost" type="number" min="1" value="40"></div>
+        <div style="display:flex;align-items:flex-end"><button class="btn" style="width:100%" id="rAdd">Add reward</button></div>
+      </div>
+    </div>
+  </section>
+  <div class="net" id="net"></div>
+</div>
+
+<button class="fab" id="fab" title="Add new task">+</button>
+
+<nav class="nav">
+  <button data-tab="today" class="on"><span>✅</span>Today</button>
+  <button data-tab="plan"><span>🗓️</span>Plan</button>
+  <button data-tab="progress"><span>📈</span>Progress</button>
+  <button data-tab="rewards"><span>🎁</span>Rewards</button>
+</nav>
+
+<dialog id="dlg">
+  <form method="dialog" id="addForm">
+    <h3>Add new task</h3>
+    <div class="full"><label>What do you need to do?</label><input id="nTitle" placeholder="e.g. Balance 10 chemical equations" required></div>
+    <div><label>Subject</label><select id="nSubj"></select></div>
+    <div><label>Date</label><input id="nDate" type="date" required></div>
+    <div><label>Hours</label><input id="nHours" type="number" min="0" step="0.25" value="1"></div>
+    <div><label>Parts (1 = simple tick)</label><input id="nTotal" type="number" min="1" value="1"></div>
+    <div class="full"><label>Points per part</label><input id="nPts" type="number" min="0" value="10"></div>
+    <div class="acts"><button class="btn alt" type="button" id="cancel">Cancel</button><button class="btn" type="submit">Add task</button></div>
+  </form>
+</dialog>
+<div class="toast" id="toast"></div>
+
+<script>
+/* Plan imported from Class10_Board_Exam_Planner.xlsx: [date, subject, topic, hours] */
+const PLAN=[["2026-10-26","Maths","Real Numbers - concepts + solved examples",1.5],["2026-10-26","Science","Metals and Non-metals - finish extraction of metals + revise",1],["2026-10-26","Social Science","History: Rise of Nationalism in Europe",0.5],["2026-10-26","Quran","Quran recitation / study",0.5],["2026-10-27","Maths","Real Numbers - NCERT exercise practice",1.5],["2026-10-27","Science","Metals and Non-metals - questions & reactions practice",1],["2026-10-27","Social Science","History: Nationalism in India",0.5],["2026-10-27","Quran","Quran recitation / study",0.5],["2026-10-28","Maths","Real Numbers - extra/previous-year problems",1.5],["2026-10-28","Science","Carbon and its Compounds - concepts",1],["2026-10-28","Social Science","History: Making of a Global World",0.5],["2026-10-28","Quran","Quran recitation / study",0.5],["2026-10-29","Maths","Polynomials - concepts + solved examples",1.5],["2026-10-29","Science","Carbon and its Compounds - nomenclature & reactions practice",1],["2026-10-29","Social Science","History: Age of Industrialisation",0.5],["2026-10-29","Quran","Quran recitation / study",0.5],["2026-10-30","Maths","Polynomials - NCERT exercise practice",1.5],["2026-10-30","Science","Chemical Reactions and Equations - write/balance 10 equations",1],["2026-10-30","Social Science","History: Print Culture and the Modern World",0.5],["2026-10-30","Quran","Quran recitation / study",0.5],["2026-10-31","Maths","Polynomials - extra/previous-year problems",1],["2026-10-31","Science","Acids, Bases and Salts - practice questions",1],["2026-10-31","Social Science","Geography: Resources and Development",0.5],["2026-10-31","Revision","Weekly revision of the week's weak topics",0.5],["2026-10-31","Quran","Quran recitation / study",0.5],["2026-11-01","Maths","Pair of Linear Equations in Two Variables - concepts + solved examples",2],["2026-11-01","Science","How do Organisms Reproduce - concepts",1.5],["2026-11-01","Social Science","Geography: Forest and Wildlife Resources",1],["2026-11-01","Quran","Quran recitation / study (+ Ramadan reading plan prep)",0.5],["2026-11-01","Entertainment","Free time - 2 hours of entertainment",2],["2026-11-02","Maths","Pair of Linear Equations in Two Variables - NCERT exercise practice",1.5],["2026-11-02","Science","How do Organisms Reproduce - diagrams & questions",1],["2026-11-02","Social Science","Geography: Water Resources",0.5],["2026-11-02","Quran","Quran recitation / study",0.5],["2026-11-03","Maths","Pair of Linear Equations in Two Variables - extra/previous-year problems",1.5],["2026-11-03","Science","Heredity - concepts",1],["2026-11-03","Social Science","Geography: Agriculture",0.5],["2026-11-03","Quran","Quran recitation / study",0.5],["2026-11-04","Maths","Quadratic Equations - concepts + solved examples",1.5],["2026-11-04","Science","Heredity - Mendel problems practice",1],["2026-11-04","Social Science","Geography: Minerals and Energy Resources",0.5],["2026-11-04","Quran","Quran recitation / study",0.5],["2026-11-05","Maths","Quadratic Equations - NCERT exercise practice",1.5],["2026-11-05","Science","Light: Reflection and Refraction - concepts",1],["2026-11-05","Social Science","Geography: Manufacturing Industries",0.5],["2026-11-05","Quran","Quran recitation / study",0.5],["2026-11-06","Maths","Quadratic Equations - extra/previous-year problems",1.5],["2026-11-06","Science","Light - ray diagrams & numericals",1],["2026-11-06","Social Science","Geography: Lifelines of National Economy",0.5],["2026-11-06","Quran","Quran recitation / study",0.5],["2026-11-07","Maths","Arithmetic Progressions - concepts + solved examples",1],["2026-11-07","Science","The Human Eye and the Colourful World - concepts + questions",1],["2026-11-07","Social Science","Civics: Power Sharing",0.5],["2026-11-07","Revision","Weekly revision of the week's weak topics",0.5],["2026-11-07","Quran","Quran recitation / study",0.5],["2026-11-08","Maths","Arithmetic Progressions - NCERT exercise practice",2],["2026-11-08","Science","Electricity - concepts & formulas",1.5],["2026-11-08","Social Science","Civics: Federalism",1],["2026-11-08","Quran","Quran recitation / study (+ Ramadan reading plan prep)",0.5],["2026-11-08","Entertainment","Free time - 2 hours of entertainment",2],["2026-11-09","Maths","Arithmetic Progressions - extra/previous-year problems",1.5],["2026-11-09","Science","Electricity - numericals practice",1],["2026-11-09","Social Science","Civics: Democracy and Diversity",0.5],["2026-11-09","Quran","Quran recitation / study",0.5],["2026-11-10","Maths","Triangles - concepts + solved examples",1.5],["2026-11-10","Science","Electricity - circuits practice",1],["2026-11-10","Social Science","Civics: Gender, Religion and Caste",0.5],["2026-11-10","Quran","Quran recitation / study",0.5],["2026-11-11","Maths","Triangles - NCERT exercise practice",1.5],["2026-11-11","Science","Magnetic Effects of Electric Current - concepts",1],["2026-11-11","Social Science","Civics: Political Parties",0.5],["2026-11-11","Quran","Quran recitation / study",0.5],["2026-11-12","Maths","Triangles - extra/previous-year problems",1.5],["2026-11-12","Science","Magnetic Effects - diagrams & rules practice",1],["2026-11-12","Social Science","Civics: Outcomes of Democracy",0.5],["2026-11-12","Quran","Quran recitation / study",0.5],["2026-11-13","Maths","Coordinate Geometry - concepts + solved examples",1.5],["2026-11-13","Science","Our Environment - concepts + questions",1],["2026-11-13","Social Science","Economics: Development",0.5],["2026-11-13","Quran","Quran recitation / study",0.5],["2026-11-14","Maths","Coordinate Geometry - NCERT exercise practice",1],["2026-11-14","Science","Life Processes - revision + diagrams",1],["2026-11-14","Social Science","Economics: Sectors of the Indian Economy",0.5],["2026-11-14","Revision","Weekly revision of the week's weak topics",0.5],["2026-11-14","Quran","Quran recitation / study",0.5],["2026-11-15","Maths","Coordinate Geometry - extra/previous-year problems",2],["2026-11-15","Science","Control and Coordination - revision + diagrams",1.5],["2026-11-15","Social Science","Economics: Money and Credit",1],["2026-11-15","Quran","Quran recitation / study (+ Ramadan reading plan prep)",0.5],["2026-11-15","Entertainment","Free time - 2 hours of entertainment",2],["2026-11-16","Maths","Introduction to Trigonometry - concepts + solved examples",1.5],["2026-11-16","Science","Chemistry revision + equations",1],["2026-11-16","Social Science","Economics: Globalisation and the Indian Economy",0.5],["2026-11-16","Quran","Quran recitation / study",0.5],["2026-11-17","Maths","Introduction to Trigonometry - NCERT exercise practice",1.5],["2026-11-17","Science","Physics numericals revision",1],["2026-11-17","Social Science","Economics: Consumer Rights",0.5],["2026-11-17","Quran","Quran recitation / study",0.5],["2026-11-18","Maths","Introduction to Trigonometry - extra/previous-year problems",1.5],["2026-11-18","Science","Biology diagrams revision",1],["2026-11-18","Social Science","History revision + dates",0.5],["2026-11-18","Quran","Quran recitation / study",0.5],["2026-11-19","Maths","Some Applications of Trigonometry - concepts + solved examples",1.5],["2026-11-19","Science","Sample paper (timed) + error review",1],["2026-11-19","Social Science","Geography revision + map work",0.5],["2026-11-19","Quran","Quran recitation / study",0.5],["2026-11-20","Maths","Some Applications of Trigonometry - NCERT exercise practice",1.5],["2026-11-20","Science","Chemistry revision + equations",1],["2026-11-20","Social Science","Civics revision",0.5],["2026-11-20","Quran","Quran recitation / study",0.5],["2026-11-21","Maths","Some Applications of Trigonometry - extra/previous-year problems",1],["2026-11-21","Science","Physics numericals revision",1],["2026-11-21","Social Science","Economics revision",0.5],["2026-11-21","Revision","Weekly revision of the week's weak topics",0.5],["2026-11-21","Quran","Quran recitation / study",0.5],["2026-11-22","Maths","Circles - concepts + solved examples",2],["2026-11-22","Science","Biology diagrams revision",1.5],["2026-11-22","Social Science","History revision + dates",1],["2026-11-22","Quran","Quran recitation / study (+ Ramadan reading plan prep)",0.5],["2026-11-22","Entertainment","Free time - 2 hours of entertainment",2],["2026-11-23","Maths","Circles - NCERT exercise practice",1.5],["2026-11-23","Science","Sample paper (timed) + error review",1],["2026-11-23","Social Science","Geography revision + map work",0.5],["2026-11-23","Quran","Quran recitation / study",0.5],["2026-11-24","Maths","Circles - extra/previous-year problems",1.5],["2026-11-24","Science","Chemistry revision + equations",1],["2026-11-24","Social Science","Civics revision",0.5],["2026-11-24","Quran","Quran recitation / study",0.5],["2026-11-25","Maths","Areas Related to Circles - concepts + solved examples",1.5],["2026-11-25","Science","Physics numericals revision",1],["2026-11-25","Social Science","Economics revision",0.5],["2026-11-25","Quran","Quran recitation / study",0.5],["2026-11-26","Maths","Areas Related to Circles - NCERT exercise practice",1.5],["2026-11-26","Science","Biology diagrams revision",1],["2026-11-26","Social Science","History revision + dates",0.5],["2026-11-26","Quran","Quran recitation / study",0.5],["2026-11-27","Maths","Areas Related to Circles - extra/previous-year problems",1.5],["2026-11-27","Science","Sample paper (timed) + error review",1],["2026-11-27","Social Science","Geography revision + map work",0.5],["2026-11-27","Quran","Quran recitation / study",0.5],["2026-11-28","Maths","Surface Areas and Volumes - concepts + solved examples",1],["2026-11-28","Science","Chemistry revision + equations",1],["2026-11-28","Social Science","Civics revision",0.5],["2026-11-28","Revision","Weekly revision of the week's weak topics",0.5],["2026-11-28","Quran","Quran recitation / study",0.5],["2026-11-29","Maths","Surface Areas and Volumes - NCERT exercise practice",2],["2026-11-29","Science","Physics numericals revision",1.5],["2026-11-29","Social Science","Economics revision",1],["2026-11-29","Quran","Quran recitation / study (+ Ramadan reading plan prep)",0.5],["2026-11-29","Entertainment","Free time - 2 hours of entertainment",2],["2026-11-30","Maths","Surface Areas and Volumes - extra/previous-year problems",1.5],["2026-11-30","Science","Biology diagrams revision",1],["2026-11-30","Social Science","History revision + dates",0.5],["2026-11-30","Quran","Quran recitation / study",0.5],["2026-12-01","Maths","Statistics - concepts + solved examples",1.5],["2026-12-01","Science","Sample paper (timed) + error review",1],["2026-12-01","Social Science","Geography revision + map work",0.5],["2026-12-01","Quran","Quran recitation / study",0.5],["2026-12-02","Maths","Statistics - NCERT exercise practice",1.5],["2026-12-02","Science","Chemistry revision + equations",1],["2026-12-02","Social Science","Civics revision",0.5],["2026-12-02","Quran","Quran recitation / study",0.5],["2026-12-03","Maths","Statistics - extra/previous-year problems",1.5],["2026-12-03","Science","Physics numericals revision",1],["2026-12-03","Social Science","Economics revision",0.5],["2026-12-03","Quran","Quran recitation / study",0.5],["2026-12-04","Maths","Probability - concepts + solved examples",1.5],["2026-12-04","Science","Biology diagrams revision",1],["2026-12-04","Social Science","History revision + dates",0.5],["2026-12-04","Quran","Quran recitation / study",0.5],["2026-12-05","Maths","Probability - NCERT exercise practice",1],["2026-12-05","Science","Sample paper (timed) + error review",1],["2026-12-05","Social Science","Geography revision + map work",0.5],["2026-12-05","Revision","Weekly revision of the week's weak topics",0.5],["2026-12-05","Quran","Quran recitation / study",0.5],["2026-12-06","Maths","Probability - extra/previous-year problems",2],["2026-12-06","Science","Chemistry revision + equations",1.5],["2026-12-06","Social Science","Civics revision",1],["2026-12-06","Quran","Quran recitation / study (+ Ramadan reading plan prep)",0.5],["2026-12-06","Entertainment","Free time - 2 hours of entertainment",2],["2026-12-07","Maths","Mixed practice - weak chapters",1.5],["2026-12-07","Science","Physics numericals revision",1],["2026-12-07","Social Science","Economics revision",0.5],["2026-12-07","Quran","Quran recitation / study",0.5],["2026-12-08","Maths","Formula sheet revision",1.5],["2026-12-08","Science","Biology diagrams revision",1],["2026-12-08","Social Science","History revision + dates",0.5],["2026-12-08","Quran","Quran recitation / study",0.5],["2026-12-09","Maths","Sample paper (timed) + error review",1.5],["2026-12-09","Science","Sample paper (timed) + error review",1],["2026-12-09","Social Science","Geography revision + map work",0.5],["2026-12-09","Quran","Quran recitation / study",0.5],["2026-12-10","Maths","Mixed practice - weak chapters",1.5],["2026-12-10","Science","Chemistry revision + equations",1],["2026-12-10","Social Science","Civics revision",0.5],["2026-12-10","Quran","Quran recitation / study",0.5],["2026-12-11","Maths","Formula sheet revision",1.5],["2026-12-11","Science","Physics numericals revision",1],["2026-12-11","Social Science","Economics revision",0.5],["2026-12-11","Quran","Quran recitation / study",0.5],["2026-12-12","Maths","Sample paper (timed) + error review",1],["2026-12-12","Science","Biology diagrams revision",1],["2026-12-12","Social Science","History revision + dates",0.5],["2026-12-12","Revision","Weekly revision of the week's weak topics",0.5],["2026-12-12","Quran","Quran recitation / study",0.5],["2026-12-13","Maths","Mixed practice - weak chapters",2],["2026-12-13","Science","Sample paper (timed) + error review",1.5],["2026-12-13","Social Science","Geography revision + map work",1],["2026-12-13","Quran","Quran recitation / study (+ Ramadan reading plan prep)",0.5],["2026-12-13","Entertainment","Free time - 2 hours of entertainment",2],["2026-12-14","Maths","Formula sheet revision",1.5],["2026-12-14","Science","Chemistry revision + equations",1],["2026-12-14","Social Science","Civics revision",0.5],["2026-12-14","Quran","Quran recitation / study",0.5],["2026-12-15","Maths","Sample paper (timed) + error review",1.5],["2026-12-15","Science","Physics numericals revision",1],["2026-12-15","Social Science","Economics revision",0.5],["2026-12-15","Quran","Quran recitation / study",0.5],["2026-12-16","Maths","Mixed practice - weak chapters",1.5],["2026-12-16","Science","Biology diagrams revision",1],["2026-12-16","Social Science","History revision + dates",0.5],["2026-12-16","Quran","Quran recitation / study",0.5],["2026-12-17","Maths","Formula sheet revision",1.5],["2026-12-17","Science","Sample paper (timed) + error review",1],["2026-12-17","Social Science","Geography revision + map work",0.5],["2026-12-17","Quran","Quran recitation / study",0.5],["2026-12-18","Maths","Sample paper (timed) + error review",1.5],["2026-12-18","Science","Chemistry revision + equations",1],["2026-12-18","Social Science","Civics revision",0.5],["2026-12-18","Quran","Quran recitation / study",0.5],["2026-12-19","Maths","Mixed practice - weak chapters",1],["2026-12-19","Science","Physics numericals revision",1],["2026-12-19","Social Science","Economics revision",0.5],["2026-12-19","Revision","Weekly revision of the week's weak topics",0.5],["2026-12-19","Quran","Quran recitation / study",0.5],["2026-12-20","Maths","Formula sheet revision",2],["2026-12-20","Science","Biology diagrams revision",1.5],["2026-12-20","Social Science","History revision + dates",1],["2026-12-20","Quran","Quran recitation / study (+ Ramadan reading plan prep)",0.5],["2026-12-20","Entertainment","Free time - 2 hours of entertainment",2],["2026-12-21","Maths","Sample paper (timed) + error review",1.5],["2026-12-21","Science","Sample paper (timed) + error review",1],["2026-12-21","Social Science","Geography revision + map work",0.5],["2026-12-21","Quran","Quran recitation / study",0.5],["2026-12-22","Maths","Mixed practice - weak chapters",1.5],["2026-12-22","Science","Chemistry revision + equations",1],["2026-12-22","Social Science","Civics revision",0.5],["2026-12-22","Quran","Quran recitation / study",0.5],["2026-12-23","Maths","Formula sheet revision",1.5],["2026-12-23","Science","Physics numericals revision",1],["2026-12-23","Social Science","Economics revision",0.5],["2026-12-23","Quran","Quran recitation / study",0.5],["2026-12-24","Maths","Sample paper (timed) + error review",1.5],["2026-12-24","Science","Biology diagrams revision",1],["2026-12-24","Social Science","History revision + dates",0.5],["2026-12-24","Quran","Quran recitation / study",0.5]];
+
+const SUBJ={
+  'Maths':{ico:'📐',v:'--Maths'},'Science':{ico:'🧪',v:'--Science'},'Social Science':{ico:'🌍',v:'--Social'},
+  'Quran':{ico:'📖',v:'--Quran'},'Revision':{ico:'🔁',v:'--Revision'},'Entertainment':{ico:'🎬',v:'--Entertainment'},'Other':{ico:'⭐',v:'--Other'}
+};
+const KEY='studyTrackerV2';
+const $=id=>document.getElementById(id);
+const pad=n=>String(n).padStart(2,'0');
+const ymd=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const pd=s=>{const[a,b,c]=s.split('-').map(Number);return new Date(a,b-1,c)};
+const WD=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const uid=()=>'c'+Math.random().toString(36).slice(2,9);
+
+function defaults(){return{done:{},custom:[],hidden:[],spent:0,theme:'auto',rewards:[
+  {id:uid(),name:'30-minute break',cost:20},
+  {id:uid(),name:'One episode of a series',cost:40},
+  {id:uid(),name:'Fun activity with no screens: walk, cricket, board game, drawing',cost:50},
+  {id:uid(),name:'A special treat',cost:100}]}}
+let S=defaults();
+try{const x=JSON.parse(localStorage.getItem(KEY));if(x&&x.done&&x.rewards)S=Object.assign(defaults(),x)}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast('Could not save on this device')}};
+
+function el(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('show'),2300)}
+function ring(host,pct,size,stroke,track,fill){
+  host.innerHTML='';const r=(size-stroke)/2,c=2*Math.PI*r,ns='http://www.w3.org/2000/svg';
+  const s=document.createElementNS(ns,'svg');s.setAttribute('width',size);s.setAttribute('height',size);
+  s.setAttribute('viewBox','0 0 '+size+' '+size);s.style.transform='rotate(-90deg)';
+  [[track,100],[fill,pct]].forEach(([col,p])=>{
+    const k=document.createElementNS(ns,'circle');
+    k.setAttribute('cx',size/2);k.setAttribute('cy',size/2);k.setAttribute('r',r);k.setAttribute('fill','none');
+    k.setAttribute('stroke',col);k.setAttribute('stroke-width',stroke);k.setAttribute('stroke-linecap','round');
+    k.setAttribute('stroke-dasharray',c);k.setAttribute('stroke-dashoffset',c*(1-p/100));s.appendChild(k)});
+  host.appendChild(s);host.style.width=host.style.height=size+'px';
+  const t=el('span','',Math.round(pct)+'%');host.appendChild(t);
+}
+
+let ALL=[];
+function build(){
+  ALL=[...PLAN.map((p,i)=>({id:'p'+i,date:p[0],subj:p[1],title:p[2],hours:p[3],total:1,pts:p[1]==='Entertainment'?0:Math.round(p[3]*10)})),...S.custom]
+    .filter(t=>!S.hidden.includes(t.id));
+}
+const cnt=t=>Math.min(t.total,S.done[t.id]||0);
+const isDone=t=>cnt(t)>=t.total;
+const frac=t=>cnt(t)/t.total;
+const ptsEarned=()=>ALL.reduce((a,t)=>a+cnt(t)*t.pts,0);
+const balance=()=>ptsEarned()-S.spent;
+const byDate=d=>ALL.filter(t=>t.date===d);
+const dayPct=d=>{const ts=byDate(d);return ts.length?ts.reduce((a,t)=>a+frac(t),0)/ts.length*100:0};
+const dayFull=d=>{const ts=byDate(d);return ts.length>0&&ts.every(isDone)};
+
+const TODAY=ymd(new Date());
+let sel=TODAY,tab='today';
+function allDates(){return [...new Set(ALL.map(t=>t.date))].sort()}
+function clampSel(){const ds=allDates();if(!ds.length)return;if(!ds.includes(sel)){sel=TODAY<ds[0]?ds[0]:TODAY>ds[ds.length-1]?ds[ds.length-1]:(ds.find(d=>d>=TODAY)||ds[0])}}
+function streak(){let n=0,d=pd(TODAY);if(!dayFull(ymd(d)))d.setDate(d.getDate()-1);
+  while(dayFull(ymd(d))){n++;d.setDate(d.getDate()-1)}return n}
+const fmtDay=s=>{const d=pd(s);return WD[d.getDay()]+', '+d.getDate()+' '+MO[d.getMonth()]};
+const fmtH=h=>(Math.round(h*10)/10)+'h';
+
+function setCount(t,n){
+  const before=cnt(t);n=Math.max(0,Math.min(t.total,n));
+  if(n===0)delete S.done[t.id];else S.done[t.id]=n;
+  const gain=(n-before)*t.pts;
+  const wasFull=dayFull(t.date);
+  save();render();
+  if(n>before&&dayFull(t.date)&&!wasFull)toast('🎉 Day complete! Great work');
+  else if(gain>0)toast('+'+gain+' points ⭐'+(n===t.total?'  Task done!':''));
+}
+
+function taskCard(t){
+  const col='var('+SUBJ[t.subj].v+')',card=el('div','task'+(isDone(t)?' done':''));
+  card.style.setProperty('--c',col);
+  const tick=el('button','tick','✓');tick.setAttribute('role','checkbox');tick.setAttribute('aria-checked',isDone(t));
+  tick.setAttribute('aria-label','Mark done: '+t.title);
+  tick.onclick=()=>setCount(t,isDone(t)?0:t.total);
+  const g=el('div','grow');g.appendChild(el('div','tt',t.title));
+  const m=el('div','meta');
+  m.appendChild(el('span','tag',SUBJ[t.subj].ico+' '+t.subj));
+  if(t.hours)m.appendChild(el('span','',fmtH(t.hours)));
+  m.appendChild(el('span','',t.pts?('⭐ '+t.pts+(t.total>1?' each':'')):'Rest time'));
+  g.appendChild(m);
+  if(t.total>1){
+    const mini=el('div','mini');const i=el('i');i.style.width=frac(t)*100+'%';mini.appendChild(i);g.appendChild(mini);
+    const s=el('div','stepper');
+    const a=el('button','','−');a.onclick=()=>setCount(t,cnt(t)-1);
+    const b=el('button','','+');b.onclick=()=>setCount(t,cnt(t)+1);
+    s.append(a,el('span','',cnt(t)+' / '+t.total+'  ('+Math.round(frac(t)*100)+'%)'),b);g.appendChild(s);
+  }
+  const x=el('button','x','🗑');x.title='Delete task';
+  x.onclick=()=>{if(confirm('Delete this task?')){
+    if(t.id[0]==='c')S.custom=S.custom.filter(c=>c.id!==t.id);else S.hidden.push(t.id);
+    delete S.done[t.id];save();render()}};
+  card.append(tick,g,x);return card;
+}
+
+function render(){
+  build();clampSel();
+  $('hPts').textContent=balance();$('hStreak').textContent=streak();
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
+  ['today','plan','progress','rewards'].forEach(n=>$('tab-'+n).classList.toggle('hide',n!==tab));
+  $('fab').classList.toggle('hide',tab==='rewards');
+
+  /* TODAY */
+  const ts=byDate(sel),p=dayPct(sel),hrs=ts.reduce((a,t)=>a+t.hours,0),hd=ts.reduce((a,t)=>a+t.hours*frac(t),0);
+  const hring=$('heroRing');ring(hring,p,84,9,'rgba(255,255,255,.28)','#ffffff');
+  $('heroTitle').textContent=(sel===TODAY?'Today · ':'')+fmtDay(sel);
+  $('heroSub').textContent=ts.length?ts.filter(isDone).length+' of '+ts.length+' tasks · '+fmtH(hd)+' of '+fmtH(hrs)+' studied':'Nothing planned. Add a task with +';
+  const strip=$('strip');strip.innerHTML='';
+  const dates=[...new Set([...allDates(),TODAY])].sort();
+  dates.forEach(d=>{
+    const dt=pd(d),b=el('button','day'+(d===sel?' sel':'')+(d===TODAY?' today':''));b.dataset.d=d;
+    b.append(el('small','',WD[dt.getDay()]),el('b','',dt.getDate()));
+    const bar=el('i'),u=el('u');u.style.width=dayPct(d)+'%';bar.appendChild(u);b.appendChild(bar);
+    b.onclick=()=>{sel=d;render()};strip.appendChild(b)});
+  const cur=strip.querySelector('.sel');if(cur&&tab==='today')strip.scrollLeft=cur.offsetLeft-strip.clientWidth/2+cur.clientWidth/2;
+  $('listTitle').textContent=ts.length?ts.length+' task'+(ts.length>1?'s':''):'Tasks';
+  const list=$('list');list.innerHTML='';
+  if(!ts.length)list.appendChild(el('div','empty','No tasks for this day yet. Tap the + button to add one.'));
+  ts.forEach(t=>list.appendChild(taskCard(t)));
+
+  /* PLAN */
+  const wk=$('weeks');wk.innerHTML='';const pds=allDates();
+  const first=pds[0]?pd(pds[0]):new Date();
+  const weeks={};pds.forEach(d=>{const w=Math.floor((pd(d)-first)/864e5/7);(weeks[w]=weeks[w]||[]).push(d)});
+  const curW=Object.keys(weeks).find(w=>weeks[w].includes(sel));
+  $('planSub').textContent=pds.length?pds.length+' days · '+fmtDay(pds[0])+' to '+fmtDay(pds[pds.length-1]):'';
+  Object.keys(weeks).forEach(w=>{
+    const ds=weeks[w],wt=ds.flatMap(byDate),wp=wt.length?wt.reduce((a,t)=>a+frac(t),0)/wt.length*100:0;
+    const d=el('details','week');if(w===curW)d.open=true;
+    const sm=el('summary');const bar=el('div','bar'),i=el('i');i.style.width=wp+'%';bar.appendChild(i);
+    sm.append(el('span','grow','Week '+(+w+1)+' · '+fmtDay(ds[0]).slice(5)+' – '+fmtDay(ds[ds.length-1]).slice(5)),bar,el('span','',Math.round(wp)+'%'));
+    d.appendChild(sm);
+    ds.forEach(day=>{
+      const b=el('button','wd'+(day===sel?' cur':''));
+      const dots=el('span','dots');
+      byDate(day).forEach(t=>{const k=el('i',isDone(t)?'':'off');k.style.setProperty('--c','var('+SUBJ[t.subj].v+')');dots.appendChild(k)});
+      b.append(el('span','grow',fmtDay(day)+(day===TODAY?'  · today':'')),dots,el('b','',Math.round(dayPct(day))+'%'));
+      b.onclick=()=>{sel=day;tab='today';render();scrollTo(0,0)};d.appendChild(b)});
+    wk.appendChild(d)});
+
+  /* PROGRESS */
+  const tot=ALL.length,all=tot?ALL.reduce((a,t)=>a+frac(t),0)/tot*100:0;
+  ring($('allRing'),all,92,10,getComputedStyle(document.documentElement).getPropertyValue('--soft').trim(),getComputedStyle(document.documentElement).getPropertyValue('--accent').trim());
+  $('allSub').textContent=ALL.filter(isDone).length+' of '+tot+' tasks done';
+  const hAll=ALL.reduce((a,t)=>a+t.hours*frac(t),0);
+  const left=pds.length?Math.max(0,Math.round((pd(pds[pds.length-1])-pd(TODAY))/864e5)+1):0;
+  const k=$('kpis');k.innerHTML='';
+  [[streak()+' 🔥','Day streak'],[fmtH(hAll),'Hours studied'],[ptsEarned(),'Points earned'],[left,'Days left in plan']].forEach(([a,b])=>{
+    const x=el('div','kpi');x.append(el('b','',a),el('span','',b));k.appendChild(x)});
+  const bars=$('bars');bars.innerHTML='';const days=[];
+  for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);days.push(ymd(d))}
+  const hv=days.map(d=>byDate(d).reduce((a,t)=>a+t.hours*frac(t),0)),mx=Math.max(1,...hv);
+  days.forEach((d,i)=>{const c=el('div');const e=el('em');e.style.height=(hv[i]/mx*64)+'px';
+    c.append(e,el('div','',fmtH(hv[i])),el('div','',WD[pd(d).getDay()]));bars.appendChild(c)});
+  drawLine();
+  const sj=$('subjects');sj.innerHTML='';
+  Object.keys(SUBJ).forEach(s=>{
+    const st=ALL.filter(t=>t.subj===s);if(!st.length)return;
+    const f=st.reduce((a,t)=>a+frac(t),0)/st.length*100,hh=st.reduce((a,t)=>a+t.hours,0),hd2=st.reduce((a,t)=>a+t.hours*frac(t),0);
+    const c=el('div','card');c.style.setProperty('--c','var('+SUBJ[s].v+')');
+    const h=el('div','row');h.append(el('b','grow',SUBJ[s].ico+' '+s),el('b','',Math.round(f)+'%'));
+    const bar=el('div','bar');bar.style.margin='9px 0 7px';const i=el('i');i.style.width=f+'%';bar.appendChild(i);
+    c.append(h,bar,el('div','muted',st.filter(isDone).length+' of '+st.length+' done · '+fmtH(hd2)+' of '+fmtH(hh)));sj.appendChild(c)});
+
+  /* REWARDS */
+  $('rBal').textContent=balance();
+  const rw=$('rewards');rw.innerHTML='';
+  S.rewards.slice().sort((a,b)=>a.cost-b.cost).forEach(r=>{
+    const c=el('div','card row'),g=el('div','grow');
+    g.append(el('div','tt',r.name),el('div','muted','⭐ '+r.cost+(balance()<r.cost?' · need '+(r.cost-balance())+' more':' · ready!')));
+    const need=Math.min(100,Math.max(0,balance()/r.cost*100)),bar=el('div','bar');bar.style.marginTop='8px';
+    const i=el('i');i.style.width=need+'%';bar.appendChild(i);g.appendChild(bar);
+    const b=el('button','btn','Redeem');b.disabled=balance()<r.cost;
+    b.onclick=()=>{if(confirm('Redeem "'+r.name+'" for '+r.cost+' points?')){S.spent+=r.cost;save();render();toast('Enjoy! You earned it 🎁')}};
+    const x=el('button','x','🗑');x.onclick=()=>{if(confirm('Delete this reward?')){S.rewards=S.rewards.filter(z=>z.id!==r.id);save();render()}};
+    c.append(g,b,x);rw.appendChild(c)});
+}
+
+
+function drawLine(){
+  const ds=allDates(),tot=ALL.length,box=$('line');
+  if(!ds.length||!tot){box.innerHTML='<div class="empty">Add tasks to see your graph.</div>';return}
+  const W=340,H=180,L=32,R=10,T=10,B=24,n=ds.length;
+  let cp=0,cd=0;const plan=[],you=[];
+  ds.forEach(d=>{const ts=byDate(d);cp+=ts.length;cd+=ts.reduce((a,t)=>a+frac(t),0);plan.push(cp/tot*100);you.push(cd/tot*100)});
+  const x=i=>L+(n>1?i/(n-1):0.5)*(W-L-R),y=v=>T+(1-v/100)*(H-T-B);
+  let li=-1;ds.forEach((d,i)=>{if(d<=TODAY||byDate(d).some(t=>cnt(t)>0))li=i});
+  const pts=a=>a.map((v,i)=>x(i).toFixed(1)+','+y(v).toFixed(1));
+  let s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Progress over time">';
+  [0,25,50,75,100].forEach(g=>{s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y(g)+'" y2="'+y(g)+'" style="stroke:var(--line)"/><text x="'+(L-6)+'" y="'+(y(g)+4)+'" text-anchor="end" font-size="10" style="fill:var(--muted)">'+g+'%</text>'});
+  s+='<polyline points="'+pts(plan).join(' ')+'" fill="none" stroke-width="2" stroke-dasharray="5 4" style="stroke:var(--muted)"/>';
+  if(li>=0){
+    const yp=pts(you.slice(0,li+1));
+    if(li>0)s+='<polygon points="'+x(0)+','+y(0)+' '+yp.join(' ')+' '+x(li)+','+y(0)+'" style="fill:var(--accent);opacity:.14"/><polyline points="'+yp.join(' ')+'" fill="none" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" style="stroke:var(--accent)"/>';
+    s+='<circle cx="'+x(li)+'" cy="'+y(you[li])+'" r="4.5" style="fill:var(--accent);stroke:var(--card)" stroke-width="2"/>';
+  }
+  [0,Math.floor((n-1)/2),n-1].filter((v,i,a)=>a.indexOf(v)===i).forEach((i,k,a)=>{
+    const d=pd(ds[i]);s+='<text x="'+x(i)+'" y="'+(H-6)+'" text-anchor="'+(k===0?'start':k===a.length-1?'end':'middle')+'" font-size="10" style="fill:var(--muted)">'+d.getDate()+' '+MO[d.getMonth()]+'</text>'});
+  box.innerHTML=s+'</svg>';
+  const first=pd(ds[0]),wk={};
+  ds.forEach(d=>{const w=Math.floor((pd(d)-first)/864e5/7);(wk[w]=wk[w]||[]).push(d)});
+  const wb=$('weekly');wb.innerHTML='';
+  Object.keys(wk).forEach(w=>{const ts=wk[w].flatMap(byDate),p=ts.length?ts.reduce((a,t)=>a+frac(t),0)/ts.length*100:0;
+    const r=el('div','wk');const bar=el('div','bar'),i=el('i');i.style.width=p+'%';bar.appendChild(i);
+    r.append(el('b','','Week '+(+w+1)),bar,el('span','',Math.round(p)+'%'));wb.appendChild(r)});
+}
+
+/* events */
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;render();scrollTo(0,0)});
+$('todayBtn').onclick=()=>{sel=TODAY;render()};
+const ns=$('nSubj');Object.keys(SUBJ).forEach(s=>{const o=el('option','',SUBJ[s].ico+' '+s);o.value=s;ns.appendChild(o)});
+$('fab').onclick=()=>{$('nDate').value=sel;$('nTitle').value='';$('dlg').showModal();setTimeout(()=>$('nTitle').focus(),50)};
+$('cancel').onclick=()=>$('dlg').close();
+$('addForm').addEventListener('submit',e=>{
+  const title=$('nTitle').value.trim();if(!title||!$('nDate').value){e.preventDefault();return}
+  const hours=Math.max(0,parseFloat($('nHours').value)||0);
+  S.custom.push({id:uid(),title,subj:$('nSubj').value,date:$('nDate').value,hours,total:Math.max(1,parseInt($('nTotal').value)||1),pts:Math.max(0,parseInt($('nPts').value)||0)});
+  sel=$('nDate').value;tab='today';save();render();toast('Task added ✅');
+});
+$('rAdd').onclick=()=>{const n=$('rName').value.trim();if(!n){toast('Type a reward first');return}
+  S.rewards.push({id:uid(),name:n,cost:Math.max(1,parseInt($('rCost').value)||1)});$('rName').value='';save();render()};
+function applyTheme(){const r=document.documentElement;S.theme==='auto'?r.removeAttribute('data-theme'):r.setAttribute('data-theme',S.theme);
+  const m=document.querySelector('meta[name=theme-color]');if(m)m.content=(S.theme==='dark'||(S.theme==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches))?'#0d1317':'#0f766e'}
+$('themeBtn').onclick=()=>{const o=['auto','light','dark'];S.theme=o[(o.indexOf(S.theme)+1)%3];save();applyTheme();render();toast('Theme: '+S.theme)};
+matchMedia('(prefers-color-scheme:dark)').addEventListener&&matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>{applyTheme();render()});
+$('exp').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:'application/json'}));a.download='study-tracker-backup.json';a.click()};
+$('imp').onclick=()=>$('file').click();
+$('file').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.done||!d.rewards)throw 0;S=Object.assign(defaults(),d);save();applyTheme();render();toast('Backup loaded')}catch(x){toast('That file is not a valid backup')}};r.readAsText(f)};
+$('reset').onclick=()=>{if(confirm('Untick every task and reset spent points? Your tasks and rewards stay.')){S.done={};S.spent=0;save();render()}};
+function net(){$('net').textContent=navigator.onLine?'Online · works offline too':'Offline · everything still works'}
+addEventListener('online',net);addEventListener('offline',net);net();
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+applyTheme();render();
+</script>
+</body>
+</html>
