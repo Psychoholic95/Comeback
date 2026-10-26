@@ -1,7 +1,7 @@
 {
-  "name": "Comback",
-  "short_name": "Comback",
-  "description": "Tick off studies and tasks, earn points, unlock rewards. Works offline.",
+  "name": "Comeback",
+  "short_name": "Comeback",
+  "description": "Track every chapter, tick off tasks, earn points and rewards. Works offline.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
